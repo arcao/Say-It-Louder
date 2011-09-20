@@ -21,7 +21,7 @@ public class ShakeDetector implements SensorEventListener {
 	private int thresholdForce = DEFAULT_THRESHOLD_FORCE;
 	private float last_x, last_y, last_z;
 	
-	private Vector<ShakeListener> listeners;
+	private final Vector<ShakeListener> listeners = new Vector<ShakeListener>();
 	
 	public ShakeDetector(Activity parent) {
 		sensorService = (SensorManager) parent.getSystemService(Context.SENSOR_SERVICE);
