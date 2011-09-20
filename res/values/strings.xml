@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Say It Loud</string>
+    <string name="show_it">>></string>
+    <string name="item_deleted">\'%s\' deleted.</string>
+</resources>
