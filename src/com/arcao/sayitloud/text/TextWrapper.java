@@ -54,9 +54,15 @@ public class TextWrapper {
 		StringBuilder wrap = new StringBuilder();
 		text = cleanse(text);
 
-		int rows = (int) Math.sqrt(targetRatio * text.length() / fontRatio),
-			cols = text.length() / rows,
-			start = cols, index = 0, last;
+		int rows = (int) Math.sqrt(targetRatio * text.length() / fontRatio);
+		// bug when for text 'fff' rows is zero
+		if (rows == 0)
+			rows = 1;
+		
+		int cols = text.length() / rows;
+		int start = cols;
+		int index = 0;
+		int last;
 
 		for(int i = 0; i < rows - 1; i++) {
 			last = index;
