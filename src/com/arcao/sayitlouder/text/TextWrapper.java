@@ -77,7 +77,7 @@ public class TextWrapper {
 			start = index + cols;
 		}
 
-		wrap.append(text.substring(index));
+		wrap.append(text.substring(index).trim());
 		return wrap.toString();
 	}
 

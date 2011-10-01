@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import com.arcao.sayitlouder.text.TextWrapper;
@@ -27,6 +28,7 @@ public class MessageView extends HighlightView {
 		// default setting
 		paint.setARGB(255, 255, 255, 255);
 		paint.setAntiAlias(true);
+		paint.setTypeface(Typeface.DEFAULT_BOLD);
 	}
 
 	@Override
