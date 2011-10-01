@@ -8,17 +8,15 @@
 <booleanAttribute key="com.android.ide.eclipse.adt.target" value="false"/>
 <booleanAttribute key="com.android.ide.eclipse.adt.wipedata" value="false"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/SayItLoud"/>
-<listEntry value="/SayItLoud/AndroidManifest.xml"/>
+<listEntry value="/SayItLouder"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
-<listEntry value="1"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ALLOW_TERMINATE" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="SayItLoud"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="SayItLouder"/>
 </launchConfiguration>
