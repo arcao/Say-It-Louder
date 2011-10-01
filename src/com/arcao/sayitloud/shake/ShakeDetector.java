@@ -11,7 +11,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 public class ShakeDetector implements SensorEventListener {
-	private static final int DEFAULT_THRESHOLD_FORCE = 900;
+	private static final int DEFAULT_THRESHOLD_FORCE = 700;
 
 	private final SensorManager sensorService;
 	private final List<Sensor> sensors;

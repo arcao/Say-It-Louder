@@ -2,45 +2,41 @@ package com.arcao.sayitloud.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.View;
 
 import com.arcao.sayitloud.text.TextWrapper;
 
-public class MessageView extends View {
+public class MessageView extends HighlightView {
 	private static final float INITIAL_FONT_SIZE = 24f;
 
 	private final String message;
-	private final Paint paint;
+	
 
 	private float width = 0;
 	private float height = 0;
 
-	private int textSize = -1;
+	private float textSize = 0;
 	private String[] messageToDraw = new String[0];
-
+	
 	public MessageView(Context context, String message) {
 		super(context);
 		this.message = message;
-		paint = new Paint();
 
 		// default setting
 		paint.setARGB(255, 255, 255, 255);
 		paint.setAntiAlias(true);
 	}
 
-	public Paint getPaint() {
-		return paint;
-	}
-
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		
+		drawBackground(canvas);
+		drawForeground(canvas);
 
-		if (textSize == -1) {
+		if (textSize == 0) {
 			prepareText();
 		}
 
@@ -72,7 +68,7 @@ public class MessageView extends View {
 
 		width = w;
 		height = h;
-		textSize = -1;
+		textSize = 0;
 	}
 
 	protected void prepareText() {
@@ -107,6 +103,8 @@ public class MessageView extends View {
 		float widthRatio = (width / maxWidth) * 0.95f;
 
 		// set font size
-		paint.setTextSize(INITIAL_FONT_SIZE * Math.min(heightRatio, widthRatio));
+		textSize = INITIAL_FONT_SIZE * Math.min(heightRatio, widthRatio);
+		paint.setTextSize(textSize);
+	 
 	}
 }
