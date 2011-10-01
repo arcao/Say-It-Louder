@@ -1,4 +1,4 @@
-package com.arcao.sayitloud.view;
+package com.arcao.sayitlouder.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package com.arcao.sayitloud.view;
+package com.arcao.sayitlouder.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,7 +6,7 @@ import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.util.Log;
 
-import com.arcao.sayitloud.text.TextWrapper;
+import com.arcao.sayitlouder.text.TextWrapper;
 
 public class MessageView extends HighlightView {
 	private static final float INITIAL_FONT_SIZE = 24f;

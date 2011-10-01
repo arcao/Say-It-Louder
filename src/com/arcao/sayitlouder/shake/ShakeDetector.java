@@ -1,4 +1,4 @@
-package com.arcao.sayitloud.shake;
+package com.arcao.sayitlouder.shake;
 
 import java.util.List;
 import java.util.Vector;

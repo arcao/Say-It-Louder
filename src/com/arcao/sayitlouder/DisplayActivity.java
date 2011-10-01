@@ -1,4 +1,4 @@
-package com.arcao.sayitloud;
+package com.arcao.sayitlouder;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -8,9 +8,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
-import com.arcao.sayitloud.shake.ShakeDetector;
-import com.arcao.sayitloud.shake.ShakeListener;
-import com.arcao.sayitloud.view.MessageView;
+import com.arcao.sayitloud.R;
+import com.arcao.sayitlouder.shake.ShakeDetector;
+import com.arcao.sayitlouder.shake.ShakeListener;
+import com.arcao.sayitlouder.view.MessageView;
 
 public class DisplayActivity extends Activity implements ShakeListener, Runnable {
 	public static final String INTENT_EXTRA_MESSAGE = "MESSAGE";
