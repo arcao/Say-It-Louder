@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
-import com.arcao.sayitloud.R;
 import com.arcao.sayitlouder.shake.ShakeDetector;
 import com.arcao.sayitlouder.shake.ShakeListener;
 import com.arcao.sayitlouder.view.MessageView;

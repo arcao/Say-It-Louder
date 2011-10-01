@@ -3,8 +3,6 @@ package com.arcao.sayitlouder;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.arcao.sayitloud.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
