@@ -8,6 +8,9 @@
         <Button android:text="@string/show_it" android:id="@+id/show" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="buttonShow_onClick"></Button>
     </LinearLayout>
     <ListView android:layout_height="fill_parent" android:id="@+id/list" android:layout_width="fill_parent" android:layout_weight="1">
-        <!-- Preview: listitem=@android:layout/simple_list_item_1 -->
+        <!-- Preview: 
+            listfooter=@layout/main_footer
+            listitem=@android:layout/simple_list_item_1
+         -->
     </ListView>
 </LinearLayout>

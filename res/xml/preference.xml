@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/pref_title_colors">
+		<com.att.preference.colorpicker.ColorPickerPreference
+			android:key="foregroundColor" android:defaultValue="@color/white"
+			android:title="@string/pref_foreground_color" android:summary="@string/pref_foreground_color_summary"
+			alphaSlider="false" />
+		<com.att.preference.colorpicker.ColorPickerPreference
+			android:key="backgroundColor" android:defaultValue="@color/black"
+			android:title="@string/pref_background_color" android:summary="@string/pref_background_color_summary"
+			alphaSlider="false" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/pref_title_highlight">
+		<CheckBoxPreference android:key="highlightTouch"
+			android:defaultValue="true" android:summary="@string/pref_highlight_touch_summary"
+			android:title="@string/pref_highlight_touch" />
+		<CheckBoxPreference android:key="highlightShake"
+			android:defaultValue="true" android:summary="@string/pref_highlight_shake_summary"
+			android:title="@string/pref_highlight_shake" />
+		<EditTextPreference android:key="shakeThresholdForce"
+			android:defaultValue="700"
+			android:summary="@string/pref_highlight_shake_threshold_force_summary"
+			android:title="@string/pref_highlight_shake_threshold_force"
+			android:dependency="highlightShake" android:dialogTitle="@string/pref_highlight_shake_threshold_force"
+			android:dialogMessage="@string/pref_highlight_shake_threshold_force_summary" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/pref_title_display">
+		<ListPreference android:summary="@string/pref_display_orientation_summary" android:title="@string/pref_display_orientation" android:key="displayOrientation" android:entryValues="@array/pref_display_orientation_values" android:entries="@array/pref_display_orientation_names" android:defaultValue="-1"></ListPreference>
+	</PreferenceCategory>
+</PreferenceScreen>

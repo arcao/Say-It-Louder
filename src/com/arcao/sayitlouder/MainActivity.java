@@ -1,7 +1,6 @@
 package com.arcao.sayitlouder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +9,9 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -28,6 +30,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 	private TextView messageText;
 	private ListView list;
 	private Button buttonShow;
+	private ArrayAdapter<String> adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,68 +53,79 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				buttonShow.setEnabled(s.length() > 0);
+				buttonShow.setEnabled(s.toString().trim().length() > 0);
 			}
 		});
+		messageText.setText("");
+		
+		list.addFooterView(getLayoutInflater().inflate(R.layout.main_footer, null));
+
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+		list.setAdapter(adapter);
 
 		loadMessages();
 	}
 
 	public void buttonShow_onClick(View view) {
+		String message = messageText.getText().toString().trim();
+		
 		Intent intent = new Intent(this, DisplayActivity.class);
-		intent.putExtra(DisplayActivity.INTENT_EXTRA_MESSAGE, messageText.getText().toString());
+		intent.putExtra(DisplayActivity.INTENT_EXTRA_MESSAGE, message);
 
-		addMessage(messageText.getText().toString());
+		addMessage(message);
 
 		startActivity(intent);
 	}
 
-	private void addMessage(String text) {
-		@SuppressWarnings("unchecked")
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>) list.getAdapter();
-		adapter.remove(text);
-		adapter.insert(text, 0);
+	private void addMessage(String message) {
+		adapter.remove(message);
+		adapter.insert(message, 0);
 
 		saveMessages();
 	}
 
 	private void loadMessages() {
-		List<String> messages = new ArrayList<String>();
-
 		SharedPreferences settings = getSharedPreferences(APP_NAME, MODE_PRIVATE);
 
+		adapter.clear();
 		int i = 0;
 		String message = null;
 		while ((message = settings.getString(PREFERENCES_MESSAGE_PREFIX + i, null)) != null) {
-			messages.add(message);
+			if (message.trim().length() > 0)
+				adapter.add(message);
 			i++;
 		}
 
-		list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messages));
+		if (messageText.getText().length() == 0 && adapter.getCount() > 0) {
+			messageText.setText(adapter.getItem(0));
+		}
 	}
 
 	private void saveMessages() {
 		SharedPreferences settings = getSharedPreferences(APP_NAME, MODE_PRIVATE);
 		Editor editor = settings.edit();
 
-		@SuppressWarnings("unchecked")
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>) list.getAdapter();
-
 		for (int i = 0; i < adapter.getCount(); i++) {
 			editor.putString(PREFERENCES_MESSAGE_PREFIX + i, adapter.getItem(i));
 		}
 
-		// remove next if exist
-		editor.remove(PREFERENCES_MESSAGE_PREFIX + adapter.getCount());
+		// remove next items if exist
+		int i = adapter.getCount();
+		while (settings.contains(PREFERENCES_MESSAGE_PREFIX + i)) {
+			editor.remove(PREFERENCES_MESSAGE_PREFIX + i);
+			i++;
+		}
 
 		editor.commit();
-
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		@SuppressWarnings("unchecked")
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>) parent.getAdapter();
+		if (!(view instanceof TextView)) {
+			// footer selected
+			return false;
+		}
+		
 		String message = adapter.getItem(position);
 		adapter.remove(message);
 
@@ -123,8 +137,30 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		String message = parent.getItemAtPosition(position).toString();
-
+		if (!(view instanceof TextView)) {
+			// footer selected
+			return;
+		}
+		
+		String message = adapter.getItem(position);
 		messageText.setText(message);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_activity_option_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.main_activity_option_menu_preferences:
+				startActivity(new Intent(this, PreferenceActivity.class));
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 }

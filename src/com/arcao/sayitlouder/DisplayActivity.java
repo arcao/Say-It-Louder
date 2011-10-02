@@ -1,28 +1,19 @@
 package com.arcao.sayitlouder;
 
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.LinearLayout;
 
-import com.arcao.sayitlouder.shake.ShakeDetector;
-import com.arcao.sayitlouder.shake.ShakeListener;
 import com.arcao.sayitlouder.view.MessageView;
 
-public class DisplayActivity extends Activity implements ShakeListener, Runnable {
+public class DisplayActivity extends Activity {
 	public static final String INTENT_EXTRA_MESSAGE = "MESSAGE";
 	
-	public static int HIGHLIGHT_ITERATION_COUNT = 5;
-	public static int HIGHLIGHT_PAUSE_MS = 200;
-
-	private ShakeDetector detector;
-	private int highlightIteration = 0;
-	private ScheduledThreadPoolExecutor executor;
 	private MessageView view;
-	private ScheduledFuture<?> future;
+	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,41 +23,44 @@ public class DisplayActivity extends Activity implements ShakeListener, Runnable
 		LinearLayout v = (LinearLayout) findViewById(R.id.displayHolder);
 		view = new MessageView(this, getIntent().getStringExtra(INTENT_EXTRA_MESSAGE));
 		v.addView(view);
+		
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		view.setForegroundColor(getPrefsInt(prefs, "foregroundColor", getResources().getColor(R.color.white)));
+		view.setBackgroundColor(getPrefsInt(prefs, "backgroundColor", getResources().getColor(R.color.black)));
+		view.setTouchHighlightAllowed(prefs.getBoolean("highlightTouch", view.isTouchHighlightAllowed()));
+		view.setShakeHighlightAllowed(prefs.getBoolean("highlightShake", view.isShakeHighlightAllowed()));
+		view.setShakeThresholdForce(getPrefsInt(prefs, "shakeThresholdForce", view.getShakeThresholdForce()));
+		
+		// Android feature / bug - ListPreference supports string values only, see http://code.google.com/p/android/issues/detail?id=2096 
+		setRequestedOrientation(getPrefsInt(prefs, "displayOrientation", ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		detector = new ShakeDetector(this);
-		detector.addListener(this);
-		detector.start();
-		
-		executor = new ScheduledThreadPoolExecutor(1);
+		view.onResume();
 	}
 
 	@Override
 	protected void onPause() {
-		view.shutdown();
-		detector.stop();
-		detector.removeListener(this);
+		view.onPause();
 		super.onPause();
 	}
-
-	@Override
-	public void onShake() {
-		future = executor.scheduleWithFixedDelay(this, 0, HIGHLIGHT_ITERATION_COUNT, TimeUnit.MILLISECONDS);
-	}
 	
-	@Override
-	public void run() {
-		if (highlightIteration >= HIGHLIGHT_ITERATION_COUNT) {
-			highlightIteration = 0;
-			future.cancel(true);
-			return;
-		}
-			
-		view.highlight();
+	protected int getPrefsInt(SharedPreferences prefs, String key, int defaultValue) {
+		Object value = prefs.getAll().get(key);
 		
-		highlightIteration++;
+		if (value == null)
+			return defaultValue;
+		
+		if (value instanceof Integer)
+			return (Integer) value;
+		
+		try {
+			return Integer.parseInt(value.toString());
+		} catch (NumberFormatException e) {
+			return defaultValue;
+		}
 	}
 }

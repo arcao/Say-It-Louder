@@ -12,7 +12,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:screenOrientation="landscape" android:configChanges="keyboardHidden|orientation" android:name="DisplayActivity"></activity>
+        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:configChanges="keyboardHidden|orientation" android:name="DisplayActivity"></activity>
+        <activity android:label="@string/preferences" android:name="PreferenceActivity"></activity>
 
     </application>
 </manifest>

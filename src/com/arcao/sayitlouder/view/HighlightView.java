@@ -7,18 +7,27 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class HighlightView extends View {
+import com.arcao.sayitlouder.shake.ShakeDetector;
+import com.arcao.sayitlouder.shake.ShakeListener;
+
+public class HighlightView extends View implements ShakeListener {
 	protected HighlightThread highlightThread;
 	protected Object highlightLock = new Object();
 	protected final Paint paint;
 	protected boolean isHighlight = false;
 	protected boolean touchHighlightAllowed = true; 
+	protected boolean shakeHighlightAllowed = true;
 	
 	protected int foregroundColor = Color.WHITE;
 	protected int backgroundColor = Color.BLACK;
+	private final ShakeDetector detector;
 
 	public HighlightView(Context context) {
 		super(context);
+		
+		detector = new ShakeDetector(context);
+		detector.addListener(this);
+
 		paint = new Paint(); 
 	}
 	
@@ -44,20 +53,36 @@ public class HighlightView extends View {
 		}
 	}
 	
-	/**
-	 * Stops highlight thread if is running
-	 */
-	public void shutdown() {
+	public void onResume() {
+		detector.start();
+	}
+	
+	public void onPause() {
+		detector.stop();
 		if (highlightThread != null)
 			highlightThread.shutdown();
 	}
 	
+	@Override
+	public void onShake() {
+		if (shakeHighlightAllowed)
+			highlight();
+	}
+		
 	public void setTouchHighlightAllowed(boolean touchHighlightAllowed) {
 		this.touchHighlightAllowed = touchHighlightAllowed;
 	}
 	
 	public boolean isTouchHighlightAllowed() {
 		return touchHighlightAllowed;
+	}
+	
+	public void setShakeHighlightAllowed(boolean shakeHighlightAllowed) {
+		this.shakeHighlightAllowed = shakeHighlightAllowed;
+	}
+	
+	public boolean isShakeHighlightAllowed() {
+		return shakeHighlightAllowed;
 	}
 		
 	public void setForegroundColor(int color) {
@@ -66,6 +91,14 @@ public class HighlightView extends View {
 	
 	public int getForegroundColor() {
 		return foregroundColor;
+	}
+	
+	public void setShakeThresholdForce(int force) {
+		detector.setThresholdForce(force);
+	}
+	
+	public int getShakeThresholdForce() {
+		return detector.getThresholdForce();
 	}
 	
 	@Override

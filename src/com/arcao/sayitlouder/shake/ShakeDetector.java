@@ -3,7 +3,6 @@ package com.arcao.sayitlouder.shake;
 import java.util.List;
 import java.util.Vector;
 
-import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -23,7 +22,7 @@ public class ShakeDetector implements SensorEventListener {
 
 	private final Vector<ShakeListener> listeners = new Vector<ShakeListener>();
 
-	public ShakeDetector(Activity parent) {
+	public ShakeDetector(Context parent) {
 		sensorService = (SensorManager) parent.getSystemService(Context.SENSOR_SERVICE);
 		sensors = sensorService.getSensorList(Sensor.TYPE_ACCELEROMETER);
 		if (sensors.size() > 0) {

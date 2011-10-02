@@ -62,7 +62,7 @@ public class TextWrapper {
 
 		int rows = (int) Math.sqrt(targetRatio * text.length() / fontRatio);
 		// bug when for text 'fff' rows is zero
-		if (rows == 0)
+		if (rows == 0 || !containsBreakChars(text))
 			rows = 1;
 
 		int cols = text.length() / rows;
@@ -79,6 +79,14 @@ public class TextWrapper {
 
 		wrap.append(text.substring(index).trim());
 		return wrap.toString();
+	}
+	
+	protected static boolean containsBreakChars(String text) {
+		for (int i = 0; i < text.length(); i++) {
+			if (BREAKABLE.get(text.charAt(i)) != null)
+				return true;
+		}
+		return false;
 	}
 
 	/**

@@ -3,4 +3,37 @@
     <string name="app_name">Say It Louder</string>
     <string name="show_it">>></string>
     <string name="item_deleted">\'%s\' deleted.</string>
+    <string name="legend_text">Tap on previously entered text to use it,\nlong tap to delete.</string>
+    <string name="preferences">Preferences</string>
+
+    <!-- Color Picker -->
+    <string name="dialog_color_picker">Please select a color</string>
+    <string name="press_color_to_apply">Tap on color to apply</string>
+    
+    <!-- Preference -->
+    <string name="pref_title_colors">Colors</string>
+    <string name="pref_foreground_color">Foreground color</string>
+    <string name="pref_foreground_color_summary">Define a text color</string>
+    <string name="pref_background_color">Background color</string>
+    <string name="pref_background_color_summary">Define a background color</string>
+    <string name="pref_title_highlight">Highlight</string>
+    <string name="pref_highlight_touch">Highlight on touch</string>
+    <string name="pref_highlight_touch_summary">Allow highlight by touching on screen</string>
+    <string name="pref_highlight_shake">Highlight on shake</string>
+    <string name="pref_highlight_shake_summary">Allow highlight by shaking with a device</string>
+    <string name="pref_highlight_shake_threshold_force">Shake threshold</string>
+    <string name="pref_highlight_shake_threshold_force_summary">Set a threshold to highlight by shake</string>
+    <string name="pref_title_display">Display</string>
+    <string name="pref_display_orientation">Orientation</string>
+    <string name="pref_display_orientation_summary">Display orientation</string>
+    <string-array name="pref_display_orientation_names">
+        <item>auto</item>
+        <item>portrait</item>
+        <item>landscape</item>
+    </string-array>
+    <string-array name="pref_display_orientation_values">
+        <item>-1</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
 </resources>
