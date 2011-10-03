@@ -31,6 +31,7 @@ public class DisplayActivity extends Activity {
 		view.setTouchHighlightAllowed(prefs.getBoolean("highlightTouch", view.isTouchHighlightAllowed()));
 		view.setShakeHighlightAllowed(prefs.getBoolean("highlightShake", view.isShakeHighlightAllowed()));
 		view.setShakeThresholdForce(getPrefsInt(prefs, "shakeThresholdForce", view.getShakeThresholdForce()));
+		view.setHighlightMode(getPrefsInt(prefs, "highlightMode", view.getHighlightMode()));
 		
 		// Android feature / bug - ListPreference supports string values only, see http://code.google.com/p/android/issues/detail?id=2096 
 		setRequestedOrientation(getPrefsInt(prefs, "displayOrientation", ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));

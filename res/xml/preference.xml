@@ -11,6 +11,10 @@
 			alphaSlider="false" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_title_highlight">
+		<ListPreference android:key="highlightMode"
+			android:defaultValue="0" android:summary="@string/pref_highlight_mode_summary"
+			android:title="@string/pref_highlight_mode" android:entryValues="@array/pref_highlight_mode_values"
+			android:entries="@array/pref_highlight_mode_names" />
 		<CheckBoxPreference android:key="highlightTouch"
 			android:defaultValue="true" android:summary="@string/pref_highlight_touch_summary"
 			android:title="@string/pref_highlight_touch" />
@@ -25,6 +29,9 @@
 			android:dialogMessage="@string/pref_highlight_shake_threshold_force_summary" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_title_display">
-		<ListPreference android:summary="@string/pref_display_orientation_summary" android:title="@string/pref_display_orientation" android:key="displayOrientation" android:entryValues="@array/pref_display_orientation_values" android:entries="@array/pref_display_orientation_names" android:defaultValue="-1"></ListPreference>
+		<ListPreference android:key="displayOrientation"
+			android:defaultValue="-1" android:summary="@string/pref_display_orientation_summary"
+			android:title="@string/pref_display_orientation" android:entryValues="@array/pref_display_orientation_values"
+			android:entries="@array/pref_display_orientation_names" />
 	</PreferenceCategory>
 </PreferenceScreen>

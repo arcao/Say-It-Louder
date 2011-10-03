@@ -17,6 +17,16 @@
     <string name="pref_background_color">Background color</string>
     <string name="pref_background_color_summary">Define a background color</string>
     <string name="pref_title_highlight">Highlight</string>
+    <string name="pref_highlight_mode">Highlight mode</string>
+    <string name="pref_highlight_mode_summary">Set how could look highlight</string>
+    <string-array name="pref_highlight_mode_names">
+        <item>inverse</item>
+        <item>blink</item>
+    </string-array>
+    <string-array name="pref_highlight_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
     <string name="pref_highlight_touch">Highlight on touch</string>
     <string name="pref_highlight_touch_summary">Allow highlight by touching on screen</string>
     <string name="pref_highlight_shake">Highlight on shake</string>

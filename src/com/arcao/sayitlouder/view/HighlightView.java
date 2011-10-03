@@ -11,6 +11,9 @@ import com.arcao.sayitlouder.shake.ShakeDetector;
 import com.arcao.sayitlouder.shake.ShakeListener;
 
 public class HighlightView extends View implements ShakeListener {
+	public static final int HIGHLIGHT_MODE__INVERSE = 0;
+	public static final int HIGHLIGHT_MODE__BLINK = 1;
+	
 	protected HighlightThread highlightThread;
 	protected Object highlightLock = new Object();
 	protected final Paint paint;
@@ -20,6 +23,8 @@ public class HighlightView extends View implements ShakeListener {
 	
 	protected int foregroundColor = Color.WHITE;
 	protected int backgroundColor = Color.BLACK;
+	protected int highlightMode = 0;
+	
 	private final ShakeDetector detector;
 
 	public HighlightView(Context context) {
@@ -101,6 +106,14 @@ public class HighlightView extends View implements ShakeListener {
 		return detector.getThresholdForce();
 	}
 	
+	public void setHighlightMode(int highlightMode) {
+		this.highlightMode = highlightMode;
+	}
+	
+	public int getHighlightMode() {
+		return highlightMode;
+	}
+	
 	@Override
 	public void setBackgroundColor(int color) {
 		super.setBackgroundColor(color);
@@ -108,7 +121,7 @@ public class HighlightView extends View implements ShakeListener {
 	}
 	
 	protected void drawBackground(Canvas canvas) {
-		if (isHighlight) {
+		if (isHighlight && highlightMode != HIGHLIGHT_MODE__BLINK) {
 			paint.setColor(foregroundColor);
 		} else {
 			paint.setColor(backgroundColor);
