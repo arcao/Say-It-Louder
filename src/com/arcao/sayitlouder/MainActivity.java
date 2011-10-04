@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +29,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 
 	private TextView messageText;
 	private ListView list;
-	private Button buttonShow;
+	private ImageButton buttonShow;
 	private ArrayAdapter<String> adapter;
 
 	@Override
@@ -39,7 +39,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 
 		messageText = (TextView) findViewById(R.id.message);
 		list = (ListView) findViewById(R.id.list);
-		buttonShow = (Button) findViewById(R.id.show);
+		buttonShow = (ImageButton) findViewById(R.id.show);
 
 		list.setOnItemClickListener(this);
 		list.setOnItemLongClickListener(this);

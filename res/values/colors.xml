@@ -2,5 +2,5 @@
 <resources>
     <color name="black">#000</color>
     <color name="white">#fff</color>
-    
+    <color name="search_hint">#808080</color>
 </resources>

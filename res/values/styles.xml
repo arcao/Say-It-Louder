@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Header">
+        <item name="android:background">@drawable/search_plate_global</item>
+        <item name="android:layout_marginBottom">-5.0dip</item>
+        <item name="android:paddingLeft">5.0dip</item>
+        <item name="android:paddingRight">5.0dip</item>
+    </style>
+    <style name="Header_Text_Box" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/textfield_search</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:imeOptions">actionGo</item>
+        <item name="android:layout_marginBottom">5.0dip</item>
+        <item name="android:layout_marginTop">5.0dip</item>
+        <item name="android:paddingBottom">5.0dip</item>
+        <item name="android:paddingLeft">10.0dip</item>
+        <item name="android:paddingRight">10.0dip</item>
+        <item name="android:paddingTop">5.0dip</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:textColorHint">@color/search_hint</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="Header_Button" parent="android:Widget.ImageButton">
+        <item name="android:background">@drawable/btn_search_dialog</item>
+        <item name="android:layout_marginBottom">5.0dip</item>
+        <item name="android:layout_marginTop">5.0dip</item>
+    </style>
+</resources>
