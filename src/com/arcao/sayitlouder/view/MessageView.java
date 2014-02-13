@@ -23,7 +23,12 @@ public class MessageView extends HighlightView {
 	
 	public MessageView(Context context, String message) {
 		super(context);
-		this.message = message;
+
+		if (message == null) {
+			this.message = " ";
+		} else {
+			this.message = message;
+		}
 
 		// default setting
 		paint.setARGB(255, 255, 255, 255);
