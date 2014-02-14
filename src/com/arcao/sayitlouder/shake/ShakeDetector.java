@@ -1,30 +1,29 @@
 package com.arcao.sayitlouder.shake;
 
-import java.util.List;
-import java.util.Vector;
-
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class ShakeDetector implements SensorEventListener {
 	private static final int DEFAULT_THRESHOLD_FORCE = 700;
 
 	private final SensorManager sensorService;
-	private final List<Sensor> sensors;
 	private Sensor sensor;
 	private long lastUpdate = -1;
 
 	private int thresholdForce = DEFAULT_THRESHOLD_FORCE;
 	private float last_x, last_y, last_z;
 
-	private final Vector<ShakeListener> listeners = new Vector<ShakeListener>();
+	private final List<ShakeListener> listeners = new CopyOnWriteArrayList<>();
 
 	public ShakeDetector(Context parent) {
 		sensorService = (SensorManager) parent.getSystemService(Context.SENSOR_SERVICE);
-		sensors = sensorService.getSensorList(Sensor.TYPE_ACCELEROMETER);
+		List<Sensor> sensors = sensorService.getSensorList(Sensor.TYPE_ACCELEROMETER);
 		if (sensors.size() > 0) {
 			sensor = sensors.get(0);
 		}
@@ -49,19 +48,15 @@ public class ShakeDetector implements SensorEventListener {
 	}
 
 	public void addListener(ShakeListener listener) {
-		synchronized (listeners) {
-			listeners.add(listener);
-		}
+		listeners.add(listener);
 	}
 
 	public void removeListener(ShakeListener listener) {
-		synchronized (listeners) {
-			listeners.remove(listener);
-		}
+		listeners.remove(listener);
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor s, int valu) {
+	public void onAccuracyChanged(Sensor s, int value) {
 		// do nothing
 	}
 
@@ -76,15 +71,15 @@ public class ShakeDetector implements SensorEventListener {
 			long diffTime = (currentTime - lastUpdate);
 			lastUpdate = currentTime;
 
-			float current_x = event.values[SensorManager.DATA_X];
-			float current_y = event.values[SensorManager.DATA_Y];
-			float current_z = event.values[SensorManager.DATA_Z];
+			float current_x = event.values[0];
+			float current_y = event.values[1];
+			float current_z = event.values[2];
 
-			float currenForce = Math.abs(current_x + current_y + current_z - last_x - last_y - last_z) / diffTime * 10000;
+			float currentForce = Math.abs(current_x + current_y + current_z - last_x - last_y - last_z) / diffTime * 10000;
 
-			if (currenForce > thresholdForce) {
+			if (currentForce > thresholdForce) {
 				// publish shake event
-				doOnShake();
+				fireOnShake();
 			}
 			last_x = current_x;
 			last_y = current_y;
@@ -92,11 +87,9 @@ public class ShakeDetector implements SensorEventListener {
 		}
 	}
 
-	protected void doOnShake() {
-		synchronized (listeners) {
-			for (ShakeListener listener : listeners) {
-				listener.onShake();
-			}
+	protected void fireOnShake() {
+		for (ShakeListener listener : listeners) {
+			listener.onShake();
 		}
 	}
 }

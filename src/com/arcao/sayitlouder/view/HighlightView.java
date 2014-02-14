@@ -15,7 +15,7 @@ public class HighlightView extends View implements ShakeListener {
 	public static final int HIGHLIGHT_MODE__BLINK = 1;
 	
 	protected HighlightThread highlightThread;
-	protected Object highlightLock = new Object();
+	protected final Object highlightLock = new Object();
 	protected final Paint paint;
 	protected boolean isHighlight = false;
 	protected boolean touchHighlightAllowed = true; 

@@ -23,7 +23,6 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 	private static final String APP_NAME = "SayItLoud";
 
 	private TextView messageText;
-	private ListView list;
 	private ImageButton buttonShow;
 	private ArrayAdapter<String> adapter;
 
@@ -33,7 +32,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 		setContentView(R.layout.main);
 
 		messageText = (TextView) findViewById(R.id.message);
-		list = (ListView) findViewById(R.id.list);
+		ListView list = (ListView) findViewById(R.id.list);
 		buttonShow = (ImageButton) findViewById(R.id.show);
 
 		list.setOnItemClickListener(this);
@@ -60,13 +59,16 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 		
 		list.addFooterView(getLayoutInflater().inflate(R.layout.main_footer, null));
 
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
 		list.setAdapter(adapter);
 
 		loadMessages();
 	}
 
 	public void buttonShow_onClick(View view) {
+		if (messageText.getText() == null)
+			return;
+
 		String message = messageText.getText().toString().trim();
 		
 		Intent intent = new Intent(this, DisplayActivity.class);
@@ -89,14 +91,14 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 
 		adapter.clear();
 		int i = 0;
-		String message = null;
+		String message;
 		while ((message = settings.getString(PREFERENCES_MESSAGE_PREFIX + i, null)) != null) {
 			if (message.trim().length() > 0)
 				adapter.add(message);
 			i++;
 		}
 
-		if (messageText.getText().length() == 0 && adapter.getCount() > 0) {
+		if ((messageText.getText() == null || messageText.getText().length() == 0) && adapter.getCount() > 0) {
 			messageText.setText(adapter.getItem(0));
 		}
 	}

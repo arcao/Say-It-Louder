@@ -13,7 +13,7 @@ public class MessageView extends HighlightView {
 	private static final float INITIAL_FONT_SIZE = 24f;
 
 	private final String message;
-	
+	private final Rect bounds = new Rect();
 
 	private float width = 0;
 	private float height = 0;
@@ -47,8 +47,6 @@ public class MessageView extends HighlightView {
 			prepareText();
 		}
 
-		Rect bounds = new Rect();
-
 		// centered by computed line width
 		paint.setTextAlign(Align.LEFT);
 
@@ -79,8 +77,6 @@ public class MessageView extends HighlightView {
 	}
 
 	protected void prepareText() {
-		Rect bounds = new Rect();
-
 		Log.i("screen size", width + "x" + height);
 
 		// initial size

@@ -13,7 +13,7 @@ import java.util.Map;
  * @author Martin Sloup
  */
 public class TextWrapper {
-	private static final Map<Character, Integer> BREAKABLE = new HashMap<Character, Integer>();
+	private static final Map<Character, Integer> BREAKABLE = new HashMap<>();
 
 	static {
 		BREAKABLE.put(' ', 10);
@@ -38,7 +38,7 @@ public class TextWrapper {
 			String find = String.valueOf(new char[] { c, c });
 			String replace = c.toString();
 
-			while (text.indexOf(find) != -1)
+			while (text.contains(find))
 				text = text.replace(find, replace);
 		}
 
@@ -73,7 +73,7 @@ public class TextWrapper {
 		for (int i = 0; i < rows - 1; i++) {
 			last = index;
 			index = bestBreak(text, start, cols * 2);
-			wrap.append(text.substring(last, index).trim() + "\n");
+			wrap.append(text.substring(last, index).trim()).append("\n");
 			start = index + cols;
 		}
 

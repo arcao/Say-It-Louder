@@ -108,7 +108,7 @@ public class ColorPickerPreference
 			widgetFrameView.removeViews(0, count);
 		}
 		widgetFrameView.addView(iView);
-		iView.setBackgroundDrawable(new AlphaPatternDrawable((int)(5 * mDensity)));
+		iView.setBackgroundDrawable(new AlphaPatternDrawable((int) (5 * mDensity)));
 		iView.setImageBitmap(getPreviewBitmap());
 	}
 
@@ -118,7 +118,7 @@ public class ColorPickerPreference
 		Bitmap bm = Bitmap.createBitmap(d, d, Config.ARGB_8888);
 		int w = bm.getWidth();
 		int h = bm.getHeight();
-		int c = color;
+		int c;
 		for (int i = 0; i < w; i++) {
 			for (int j = i; j < h; j++) {
 				c = (i <= 1 || j <= 1 || i >= w-2 || j >= h-2) ? Color.GRAY : color;
@@ -151,10 +151,10 @@ public class ColorPickerPreference
 		}
 		mValue = color;
 		setPreviewColor();
-		try {
-			getOnPreferenceChangeListener().onPreferenceChange(this, color);
-		} catch (NullPointerException e) {
 
+		OnPreferenceChangeListener listener = getOnPreferenceChangeListener();
+		if (listener != null) {
+			listener.onPreferenceChange(this, color);
 		}
 	}
 
@@ -178,9 +178,8 @@ public class ColorPickerPreference
 	}
 
 	/**
-	 * For custom purposes. Not used by ColorPickerPreferrence
+	 * For custom purposes. Not used by ColorPickerPreference
 	 * @param color
-	 * @author Unknown
 	 */
     public static String convertToARGB(int color) {
         String alpha = Integer.toHexString(Color.alpha(color));
@@ -208,10 +207,9 @@ public class ColorPickerPreference
     }
 
     /**
-     * For custom purposes. Not used by ColorPickerPreferrence
+     * For custom purposes. Not used by ColorPickerPreference
      * @param argb
      * @throws NumberFormatException
-     * @author Unknown
      */
     public static int convertToColorInt(String argb) throws NumberFormatException {
 

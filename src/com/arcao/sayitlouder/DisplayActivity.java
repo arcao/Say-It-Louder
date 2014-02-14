@@ -9,11 +9,12 @@ import android.widget.LinearLayout;
 
 import com.arcao.sayitlouder.view.MessageView;
 
+import java.util.Map;
+
 public class DisplayActivity extends Activity {
 	public static final String INTENT_EXTRA_MESSAGE = "MESSAGE";
 	
 	private MessageView view;
-	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +24,8 @@ public class DisplayActivity extends Activity {
 		LinearLayout v = (LinearLayout) findViewById(R.id.displayHolder);
 		view = new MessageView(this, getIntent().getStringExtra(INTENT_EXTRA_MESSAGE));
 		v.addView(view);
-		
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		view.setForegroundColor(getPrefsInt(prefs, "foregroundColor", getResources().getColor(R.color.white)));
 		view.setBackgroundColor(getPrefsInt(prefs, "backgroundColor", getResources().getColor(R.color.black)));
@@ -50,7 +51,12 @@ public class DisplayActivity extends Activity {
 	}
 	
 	protected int getPrefsInt(SharedPreferences prefs, String key, int defaultValue) {
-		Object value = prefs.getAll().get(key);
+		Map<String, ?> prefsMap = prefs.getAll();
+
+		if (prefsMap == null)
+			return defaultValue;
+
+		Object value = prefsMap.get(key);
 		
 		if (value == null)
 			return defaultValue;
