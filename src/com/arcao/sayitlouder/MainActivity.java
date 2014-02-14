@@ -1,7 +1,5 @@
 package com.arcao.sayitlouder;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,14 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends Activity implements OnItemClickListener, OnItemLongClickListener {
 
@@ -56,7 +51,12 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 				buttonShow.setEnabled(s.toString().trim().length() > 0);
 			}
 		});
-		messageText.setText("");
+
+		if (getIntent() != null && Intent.ACTION_SEND.equals(getIntent().getAction()) && getIntent().getStringExtra(Intent.EXTRA_TEXT) != null) {
+			messageText.setText(getIntent().getStringExtra(Intent.EXTRA_TEXT));
+		} else {
+			messageText.setText("");
+		}
 		
 		list.addFooterView(getLayoutInflater().inflate(R.layout.main_footer, null));
 

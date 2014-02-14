@@ -1,7 +1,6 @@
 package com.arcao.sayitlouder;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -20,16 +19,9 @@ public class DisplayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		String message;
-		if (getIntent() != null && Intent.ACTION_SEND.equals(getIntent().getAction())) {
-			message = getIntent().getStringExtra(Intent.EXTRA_TEXT);
-		} else {
-			message = getIntent().getStringExtra(INTENT_EXTRA_MESSAGE);
-		}
-
 		setContentView(R.layout.display);
 		LinearLayout v = (LinearLayout) findViewById(R.id.displayHolder);
-		view = new MessageView(this, message);
+		view = new MessageView(this, getIntent().getStringExtra(INTENT_EXTRA_MESSAGE));
 		v.addView(view);
 		
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
