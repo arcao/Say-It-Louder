@@ -47,6 +47,11 @@ android {
     }
 }
 
+dependencies {
+    compile 'com.android.support:support-v4:19.0.+'
+    compile 'com.android.support:appcompat-v7:19.0.+'
+}
+
 if (project.hasProperty('storeFile') &&
         project.hasProperty('storePassword') &&
         project.hasProperty('keyPassword')) {

@@ -1,10 +1,10 @@
 package com.arcao.sayitlouder;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -17,7 +17,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity implements OnItemClickListener, OnItemLongClickListener {
+public class MainActivity extends ActionBarActivity implements OnItemClickListener, OnItemLongClickListener {
 
 	private static final String PREFERENCES_MESSAGE_PREFIX = "message_";
 	private static final String APP_NAME = "SayItLoud";
@@ -30,6 +30,9 @@ public class MainActivity extends Activity implements OnItemClickListener, OnIte
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		//final ActionBar actionBar = getSupportActionBar();
+		//actionBar.setDisplayShowTitleEnabled(false);
 
 		messageText = (TextView) findViewById(R.id.message);
 		ListView list = (ListView) findViewById(R.id.list);
