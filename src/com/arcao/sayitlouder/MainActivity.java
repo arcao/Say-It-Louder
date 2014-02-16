@@ -45,6 +45,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		list.enableSwipeToDismiss();
 		list.setOnItemClickListener(this);
 		list.setOnItemLongClickListener(this);
+		list.setRequireTouchBeforeDismiss(false);
 
 		messageText.addTextChangedListener(new TextWatcher() {
 			@Override

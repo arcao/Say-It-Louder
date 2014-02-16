@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Say It Louder</string>
-    <string name="show_it">>></string>
+    <string name="show_it">Show it!</string>
     <string name="item_deleted">\'%s\' deleted.</string>
     <string name="legend_text">Tap on previously entered text to use it,\nlong tap or swipe to delete.</string>
     <string name="preferences">Preferences</string>
