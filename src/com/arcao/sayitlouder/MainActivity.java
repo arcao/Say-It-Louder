@@ -22,6 +22,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
 	private static final String PREFERENCES_MESSAGE_PREFIX = "message_";
 	private static final String APP_NAME = "SayItLoud";
+	private static final String STATE_MESSAGE = "message";
 
 	private TextView messageText;
 	private ImageButton buttonShow;
@@ -33,19 +34,17 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		//final ActionBar actionBar = getSupportActionBar();
-		//actionBar.setDisplayShowTitleEnabled(false);
-
 		messageText = (TextView) findViewById(R.id.message);
 		list = (EnhancedListView) findViewById(R.id.list);
 		buttonShow = (ImageButton) findViewById(R.id.show);
 
 		list.setDismissCallback(this);
 		list.setShouldSwipeCallback(this);
-		list.enableSwipeToDismiss();
 		list.setOnItemClickListener(this);
 		list.setOnItemLongClickListener(this);
 		list.setRequireTouchBeforeDismiss(false);
+		list.setUndoStyle(EnhancedListView.UndoStyle.MULTILEVEL_POPUP);
+		list.enableSwipeToDismiss();
 
 		messageText.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -62,6 +61,9 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
 		if (getIntent() != null && Intent.ACTION_SEND.equals(getIntent().getAction()) && getIntent().getStringExtra(Intent.EXTRA_TEXT) != null) {
 			messageText.setText(getIntent().getStringExtra(Intent.EXTRA_TEXT));
+		} else if (savedInstanceState != null) {
+			CharSequence message = savedInstanceState.getCharSequence(STATE_MESSAGE);
+			messageText.setText(message != null ? message : "");
 		} else {
 			messageText.setText("");
 		}
@@ -72,6 +74,15 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		list.setAdapter(adapter);
 
 		loadMessages();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		if (messageText.getText() != null) {
+			outState.putCharSequence(STATE_MESSAGE, messageText.getText());
+		}
 	}
 
 	public void buttonShow_onClick(View view) {
