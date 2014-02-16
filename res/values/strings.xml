@@ -3,7 +3,7 @@
     <string name="app_name">Say It Louder</string>
     <string name="show_it">>></string>
     <string name="item_deleted">\'%s\' deleted.</string>
-    <string name="legend_text">Tap on previously entered text to use it,\nlong tap to delete.</string>
+    <string name="legend_text">Tap on previously entered text to use it,\nlong tap or swipe to delete.</string>
     <string name="preferences">Preferences</string>
 
     <!-- Color Picker -->
@@ -23,10 +23,6 @@
         <item>inverse</item>
         <item>blink</item>
     </string-array>
-    <string-array name="pref_highlight_mode_values">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
     <string name="pref_highlight_touch">Highlight on touch</string>
     <string name="pref_highlight_touch_summary">Allow highlight by touching on screen</string>
     <string name="pref_highlight_shake">Highlight on shake</string>
@@ -40,10 +36,5 @@
         <item>auto</item>
         <item>portrait</item>
         <item>landscape</item>
-    </string-array>
-    <string-array name="pref_display_orientation_values">
-        <item>-1</item>
-        <item>1</item>
-        <item>0</item>
     </string-array>
 </resources>

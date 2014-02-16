@@ -14,10 +14,11 @@ import android.view.View;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import de.timroes.android.listview.EnhancedListView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements OnItemClickListener, OnItemLongClickListener {
+public class MainActivity extends ActionBarActivity implements OnItemClickListener, OnItemLongClickListener, EnhancedListView.OnDismissCallback, EnhancedListView.OnShouldSwipeCallback {
 
 	private static final String PREFERENCES_MESSAGE_PREFIX = "message_";
 	private static final String APP_NAME = "SayItLoud";
@@ -25,6 +26,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	private TextView messageText;
 	private ImageButton buttonShow;
 	private ArrayAdapter<String> adapter;
+	private EnhancedListView list;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,9 +37,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		//actionBar.setDisplayShowTitleEnabled(false);
 
 		messageText = (TextView) findViewById(R.id.message);
-		ListView list = (ListView) findViewById(R.id.list);
+		list = (EnhancedListView) findViewById(R.id.list);
 		buttonShow = (ImageButton) findViewById(R.id.show);
 
+		list.setDismissCallback(this);
+		list.setShouldSwipeCallback(this);
+		list.enableSwipeToDismiss();
 		list.setOnItemClickListener(this);
 		list.setOnItemLongClickListener(this);
 
@@ -126,23 +131,47 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		if (!(view instanceof TextView)) {
+		if (position >= adapter.getCount()) {
 			// footer selected
 			return false;
 		}
-		
-		String message = adapter.getItem(position);
-		adapter.remove(message);
 
-		Toast.makeText(this, getResources().getString(R.string.item_deleted, message), Toast.LENGTH_LONG).show();
-
-		saveMessages();
+		list.delete(position);
 		return true;
 	}
 
 	@Override
+	public boolean onShouldSwipe(EnhancedListView enhancedListView, int position) {
+		return position < adapter.getCount();
+	}
+
+	@Override
+	public EnhancedListView.Undoable onDismiss(EnhancedListView enhancedListView, final int position) {
+		final String message = adapter.getItem(position);
+		adapter.remove(message);
+
+		// return an Undoable
+		return new EnhancedListView.Undoable() {
+			// Reinsert the item to the adapter
+			@Override public void undo() {
+				adapter.insert(message, position);
+			}
+
+			// Return a string for your item
+			@Override public String getTitle() {
+				return getResources().getString(R.string.item_deleted, message);
+			}
+
+			// Delete item completely from your persistent storage
+			@Override public void discard() {
+				saveMessages();
+			}
+		};
+	}
+
+	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		if (!(view instanceof TextView)) {
+		if (position >= adapter.getCount()) {
 			// footer selected
 			return;
 		}

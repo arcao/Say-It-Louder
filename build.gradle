@@ -47,9 +47,15 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile 'com.android.support:support-v4:19.0.+'
     compile 'com.android.support:appcompat-v7:19.0.+'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'de.timroes.android:EnhancedListView:0.3.1@aar'
 }
 
 if (project.hasProperty('storeFile') &&

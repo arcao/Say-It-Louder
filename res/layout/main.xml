@@ -11,11 +11,11 @@
 			android:layout_width="wrap_content" android:onClick="buttonShow_onClick"
 			android:src="@drawable/ic_btn_search" android:layout_height="fill_parent" />
 	</LinearLayout>
-	<ListView android:layout_height="fill_parent" android:id="@+id/list"
+	<de.timroes.android.listview.EnhancedListView android:layout_height="fill_parent" android:id="@+id/list"
 		android:layout_width="fill_parent" android:layout_weight="1">
-	    <!-- Preview: 
-	        listfooter=@layout/main_footer
-	        listitem=@android:layout/simple_list_item_1
-	     -->
-	</ListView>
+		<!-- Preview:
+			listfooter=@layout/main_footer
+			listitem=@android:layout/simple_list_item_1
+		-->
+	</de.timroes.android.listview.EnhancedListView>
 </LinearLayout>
