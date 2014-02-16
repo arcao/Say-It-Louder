@@ -66,6 +66,7 @@ public abstract class HighlightView extends SurfaceView implements SurfaceHolder
 
 	public void highlight() {
 		doHighlight = true;
+		highlightIteration = 0;
 	}
 	
 	public void onResume() {
