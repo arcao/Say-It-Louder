@@ -10,8 +10,8 @@
     <style name="Header">
         <item name="android:background">@drawable/search_plate_global</item>
         <item name="android:layout_marginBottom">-5.0dip</item>
-        <item name="android:paddingLeft">5.0dip</item>
-        <item name="android:paddingRight">5.0dip</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
     </style>
     <style name="Header_Text_Box" parent="android:Widget.EditText">
         <item name="android:background">@drawable/textfield_search</item>
@@ -33,5 +33,13 @@
         <item name="android:background">@drawable/btn_search_dialog</item>
         <item name="android:layout_marginBottom">5.0dip</item>
         <item name="android:layout_marginTop">5.0dip</item>
+    </style>
+    <style name="List">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingLeft">@dimen/list_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/list_horizontal_margin</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
     </style>
 </resources>
