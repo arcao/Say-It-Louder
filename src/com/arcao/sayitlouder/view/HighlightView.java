@@ -2,60 +2,70 @@ package com.arcao.sayitlouder.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
-import android.view.View;
-
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import com.arcao.sayitlouder.configuration.BasicConfiguration;
 import com.arcao.sayitlouder.shake.ShakeDetector;
 import com.arcao.sayitlouder.shake.ShakeListener;
 
-public class HighlightView extends View implements ShakeListener {
+public abstract class HighlightView extends SurfaceView implements SurfaceHolder.Callback, ShakeListener {
 	public static final int HIGHLIGHT_MODE__INVERSE = 0;
 	public static final int HIGHLIGHT_MODE__BLINK = 1;
-	
-	protected HighlightThread highlightThread;
-	protected final Object highlightLock = new Object();
-	protected final Paint paint;
-	protected boolean isHighlight = false;
-	protected boolean touchHighlightAllowed = true; 
-	protected boolean shakeHighlightAllowed = true;
-	
-	protected int foregroundColor = Color.WHITE;
-	protected int backgroundColor = Color.BLACK;
-	protected int highlightMode = 0;
-	
-	private final ShakeDetector detector;
 
-	public HighlightView(Context context) {
+	protected final Paint paint = new Paint();
+
+	protected boolean doHighlight = false;
+	protected boolean isHighlight = false;
+
+	private final ShakeDetector detector;
+	private final AnimThread animThread;
+
+	private final BasicConfiguration configuration;
+
+	public HighlightView(Context context, BasicConfiguration configuration) {
 		super(context);
+
+		this.configuration = configuration;
 		
 		detector = new ShakeDetector(context);
+		detector.setThresholdForce(configuration.getShakeThresholdForce());
 		detector.addListener(this);
 
-		paint = new Paint(); 
+		getHolder().addCallback(this);
+
+		paint.setAntiAlias(true);
+		paint.setTypeface(Typeface.DEFAULT_BOLD);
+
+		animThread = new AnimThread(this);
+		setFocusable(true);
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (touchHighlightAllowed)
+		if (configuration.isTouchHighlightAllowed())
 			highlight();
 		
 		return true;
 	}
-	
-	public Paint getPaint() {
-		return paint;
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		animThread.start();
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		animThread.terminate();
 	}
 
 	public void highlight() {
-		synchronized (highlightLock) {
-			if (highlightThread != null && highlightThread.isAlive())
-				return;
-			
-			highlightThread = new HighlightThread();
-			highlightThread.start();
-		}
+		doHighlight = true;
 	}
 	
 	public void onResume() {
@@ -64,104 +74,56 @@ public class HighlightView extends View implements ShakeListener {
 	
 	public void onPause() {
 		detector.stop();
-		if (highlightThread != null)
-			highlightThread.shutdown();
 	}
 	
 	@Override
 	public void onShake() {
-		if (shakeHighlightAllowed)
+		if (configuration.isShakeHighlightAllowed())
 			highlight();
 	}
-		
-	public void setTouchHighlightAllowed(boolean touchHighlightAllowed) {
-		this.touchHighlightAllowed = touchHighlightAllowed;
-	}
-	
-	public boolean isTouchHighlightAllowed() {
-		return touchHighlightAllowed;
-	}
-	
-	public void setShakeHighlightAllowed(boolean shakeHighlightAllowed) {
-		this.shakeHighlightAllowed = shakeHighlightAllowed;
-	}
-	
-	public boolean isShakeHighlightAllowed() {
-		return shakeHighlightAllowed;
-	}
-		
-	public void setForegroundColor(int color) {
-		this.foregroundColor = color;
-	}
-	
-	public int getForegroundColor() {
-		return foregroundColor;
-	}
-	
-	public void setShakeThresholdForce(int force) {
-		detector.setThresholdForce(force);
-	}
-	
-	public int getShakeThresholdForce() {
-		return detector.getThresholdForce();
-	}
-	
-	public void setHighlightMode(int highlightMode) {
-		this.highlightMode = highlightMode;
-	}
-	
-	public int getHighlightMode() {
-		return highlightMode;
-	}
-	
-	@Override
-	public void setBackgroundColor(int color) {
-		super.setBackgroundColor(color);
-		backgroundColor = color;
-	}
-	
-	protected void drawBackground(Canvas canvas) {
-		if (isHighlight && highlightMode != HIGHLIGHT_MODE__BLINK) {
-			paint.setColor(foregroundColor);
+
+	protected void prepareBackground(Canvas canvas) {
+		if (isHighlight && configuration.getHighlightMode() != HIGHLIGHT_MODE__BLINK) {
+			canvas.drawColor(configuration.getForegroundColor());
 		} else {
-			paint.setColor(backgroundColor);
+			canvas.drawColor(configuration.getBackgroundColor());
 		}
-		
-		canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
 	}
 	
-	protected void drawForeground(Canvas canvas) {
+	protected void prepareForeground() {
 		if (isHighlight) {
-			paint.setColor(backgroundColor);
+			paint.setColor(configuration.getBackgroundColor());
 		} else {
-			paint.setColor(foregroundColor);
+			paint.setColor(configuration.getForegroundColor());
 		}
 	}
-	
-	class HighlightThread extends Thread {
-		private static final int ITERATIONS = 6;
-		private static final int WAIT_MS = 100;
-		private boolean stop = false;
-		
-		@Override
-		public void run() {		
-			for (int i = 0; i < ITERATIONS; i++) {
-				if (stop)
-					break;
-				
-				isHighlight = (i % 2 == 0);
-				postInvalidate();
-				
-				try {
-					sleep(WAIT_MS);
-				} catch (InterruptedException e) {
-					break;
+
+	protected abstract void drawFrame(Canvas canvas);
+
+	private long lastHighlight = 0;
+	private int highlightIteration = 0;
+	private static final long HIGHLIGHT_STEP_DURATION_MS = 80;
+	private static final long HIGHLIGHT_COUNT = 4;
+
+	protected void handleHighlight() {
+		if (doHighlight) {
+			if (System.currentTimeMillis() - lastHighlight > HIGHLIGHT_STEP_DURATION_MS) {
+				isHighlight = !isHighlight;
+
+				if (isHighlight) {
+					highlightIteration++;
+					if (highlightIteration > HIGHLIGHT_COUNT) {
+						doHighlight = false;
+						highlightIteration = 0;
+						lastHighlight = 0;
+						isHighlight = false;
+					}
 				}
+				lastHighlight = System.currentTimeMillis();
 			}
-		}
-		
-		public void shutdown() {
-			stop = true;
+		} else {
+			isHighlight = false;
+			lastHighlight = 0;
 		}
 	}
 }

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.util.Log;
-
+import android.view.SurfaceHolder;
+import com.arcao.sayitlouder.configuration.BasicConfiguration;
 import com.arcao.sayitlouder.text.TextWrapper;
 
 public class MessageView extends HighlightView {
@@ -21,28 +21,18 @@ public class MessageView extends HighlightView {
 	private float textSize = 0;
 	private String[] messageToDraw = new String[0];
 	
-	public MessageView(Context context, String message) {
-		super(context);
+	public MessageView(Context context, BasicConfiguration configuration, String message) {
+		super(context, configuration);
 
 		if (message == null) {
 			this.message = " ";
 		} else {
 			this.message = message;
 		}
-
-		// default setting
-		paint.setARGB(255, 255, 255, 255);
-		paint.setAntiAlias(true);
-		paint.setTypeface(Typeface.DEFAULT_BOLD);
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-		
-		drawBackground(canvas);
-		drawForeground(canvas);
-
+	protected void drawFrame(Canvas canvas) {
 		if (textSize == 0) {
 			prepareText();
 		}
@@ -68,11 +58,11 @@ public class MessageView extends HighlightView {
 	}
 
 	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		super.surfaceChanged(holder, format, width, height);
 
-		width = w;
-		height = h;
+		this.width = width;
+		this.height = height;
 		textSize = 0;
 	}
 
