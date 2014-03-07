@@ -42,6 +42,8 @@ public class AnimThread implements Runnable {
 
 	@Override
 	public void run() {
+		long lastRenderTime = FRAME_PERIOD;
+
 		while(thread != null) {
 			Canvas canvas = null;
 			long sleepTime = 0;
@@ -66,11 +68,11 @@ public class AnimThread implements Runnable {
 					highlightView.handleHighlight();
 					highlightView.prepareBackground(canvas);
 					highlightView.prepareForeground();
-					highlightView.drawFrame(canvas);
+					highlightView.drawFrame(canvas, lastRenderTime);
 
-					long timeDiff = System.currentTimeMillis() - beginTime;
+					lastRenderTime = System.currentTimeMillis() - beginTime;
 					// calculate sleep time
-					sleepTime = FRAME_PERIOD - timeDiff;
+					sleepTime = FRAME_PERIOD - lastRenderTime;
 				}
 			} finally {
 				if (canvas != null) {

@@ -99,7 +99,7 @@ public abstract class HighlightView extends SurfaceView implements SurfaceHolder
 		}
 	}
 
-	protected abstract void drawFrame(Canvas canvas);
+	protected abstract void drawFrame(Canvas canvas, long lastRenderTime);
 
 	private long lastHighlight = 0;
 	private int highlightIteration = 0;

@@ -32,7 +32,7 @@ public class MessageView extends HighlightView {
 	}
 
 	@Override
-	protected void drawFrame(Canvas canvas) {
+	protected void drawFrame(Canvas canvas, long lastRenderTime) {
 		if (textSize == 0) {
 			prepareText();
 		}
