@@ -3,8 +3,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.10.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
     }
 }
 apply plugin: 'android-sdk-manager'
@@ -47,11 +47,6 @@ android {
 
         instrumentTest.setRoot('tests')
     }
-    
-    // use old PNGCruncher, the new one cause crash on 2.x devices
-    aaptOptions {
-        useAaptPngCruncher = true
-    }
 }
 
 repositories {
@@ -59,10 +54,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.0.+'
-    compile 'com.android.support:appcompat-v7:19.0.+'
+    compile 'com.android.support:support-v4:19.+'
+    compile 'com.android.support:appcompat-v7:19.+'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'de.timroes.android:EnhancedListView:0.3.1@aar'
+    compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
 }
 
 if (project.hasProperty('storeFile') &&
