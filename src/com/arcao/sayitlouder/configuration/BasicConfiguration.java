@@ -9,6 +9,7 @@ public class BasicConfiguration {
 	private int backgroundColor = Color.BLACK;
 	private int highlightMode = 0;
 	private int shakeThresholdForce = 600;
+	private boolean mirroredY = false;
 
 	public void setTouchHighlightAllowed(boolean touchHighlightAllowed) {
 		this.touchHighlightAllowed = touchHighlightAllowed;
@@ -56,5 +57,13 @@ public class BasicConfiguration {
 
 	public int getBackgroundColor() {
 		return backgroundColor;
+	}
+
+	public void setMirroredY(boolean mirroredY) {
+		this.mirroredY = mirroredY;
+	}
+
+	public boolean isMirroredY() {
+		return mirroredY;
 	}
 }

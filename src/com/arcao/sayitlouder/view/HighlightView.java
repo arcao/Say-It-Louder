@@ -2,6 +2,7 @@ package com.arcao.sayitlouder.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
@@ -98,6 +99,24 @@ public abstract class HighlightView extends SurfaceView implements SurfaceHolder
 			paint.setColor(configuration.getForegroundColor());
 		}
 	}
+
+	protected void beforeDrawFrame(Canvas canvas, long lastRenderTime) {
+		if (configuration.isMirroredY()) {
+			Matrix matrix = new Matrix();
+			matrix.setScale(-1, 1);
+			matrix.postTranslate(canvas.getWidth(), 0);
+
+			canvas.concat(matrix);
+			canvas.save();
+		}
+	}
+
+	protected void afterDrawFrame(Canvas canvas, long lastRenderTime) {
+		if (configuration.isMirroredY()) {
+			canvas.restore();
+		}
+	}
+
 
 	protected abstract void drawFrame(Canvas canvas, long lastRenderTime);
 

@@ -68,7 +68,9 @@ public class AnimThread implements Runnable {
 					highlightView.handleHighlight();
 					highlightView.prepareBackground(canvas);
 					highlightView.prepareForeground();
+					highlightView.beforeDrawFrame(canvas, lastRenderTime);
 					highlightView.drawFrame(canvas, lastRenderTime);
+					highlightView.afterDrawFrame(canvas, lastRenderTime);
 
 					lastRenderTime = System.currentTimeMillis() - beginTime;
 					// calculate sleep time
