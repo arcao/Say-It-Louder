@@ -1,18 +1,15 @@
 package com.arcao.sayitlouder;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Window;
-import android.view.WindowManager;
+import android.support.v7.app.AppCompatActivity;
 import com.arcao.sayitlouder.configuration.BasicConfiguration;
 import com.arcao.sayitlouder.view.MessageView;
-
 import java.util.Map;
 
-public class DisplayActivity extends Activity {
+public class DisplayActivity extends AppCompatActivity {
 	public static final String INTENT_EXTRA_MESSAGE = "MESSAGE";
 	
 	private MessageView view;
@@ -20,11 +17,6 @@ public class DisplayActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// requesting to turn the title OFF
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// making it full screen
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -40,6 +32,7 @@ public class DisplayActivity extends Activity {
 		view = new MessageView(this, configuration, getIntent().getStringExtra(INTENT_EXTRA_MESSAGE));
 
 		// Android feature / bug - ListPreference supports string values only, see http://code.google.com/p/android/issues/detail?id=2096 
+		//noinspection WrongConstant
 		setRequestedOrientation(getPrefsInt(prefs, "displayOrientation", ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));
 		setContentView(view);
 	}

@@ -4,21 +4,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import de.timroes.android.listview.EnhancedListView;
-
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements OnItemClickListener, OnItemLongClickListener, EnhancedListView.OnDismissCallback, EnhancedListView.OnShouldSwipeCallback {
+public class MainActivity extends AppCompatActivity implements OnItemClickListener, OnItemLongClickListener, EnhancedListView.OnDismissCallback, EnhancedListView.OnShouldSwipeCallback {
 
 	private static final String PREFERENCES_MESSAGE_PREFIX = "message_";
 	private static final String APP_NAME = "SayItLoud";
