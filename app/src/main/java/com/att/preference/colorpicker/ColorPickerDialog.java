@@ -16,18 +16,16 @@
 
 package com.att.preference.colorpicker;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.support.v7.app.AppCompatDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.arcao.sayitlouder.R;
 
 public class ColorPickerDialog 
-	extends 
-		Dialog 
+	extends AppCompatDialog
 	implements
 		ColorPickerView.OnColorChangedListener,
 		View.OnClickListener {
@@ -40,7 +38,7 @@ public class ColorPickerDialog
 	private OnColorChangedListener mListener;
 
 	public interface OnColorChangedListener {
-		public void onColorChanged(int color);
+		void onColorChanged(int color);
 	}
 	
 	public ColorPickerDialog(Context context, int initialColor) {
@@ -58,8 +56,7 @@ public class ColorPickerDialog
 	}
 
 	private void setUp(int color) {
-		
-		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getContext());
 		
 		View layout = inflater.inflate(R.layout.dialog_color_picker, null);
 

@@ -26,7 +26,8 @@
 			android:summary="@string/pref_highlight_shake_threshold_force_summary"
 			android:title="@string/pref_highlight_shake_threshold_force"
 			android:dependency="highlightShake" android:dialogTitle="@string/pref_highlight_shake_threshold_force"
-			android:dialogMessage="@string/pref_highlight_shake_threshold_force_summary" />
+			android:dialogMessage="@string/pref_highlight_shake_threshold_force_summary"
+			android:inputType="number" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_title_display">
 		<ListPreference android:key="displayOrientation"

@@ -18,9 +18,10 @@ package com.att.preference.colorpicker;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Bitmap.Config;
-import android.preference.Preference;
+import android.graphics.Color;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -32,8 +33,7 @@ import android.widget.LinearLayout;
  * @author Sergey Margaritov
  */
 public class ColorPickerPreference
-	extends
-		Preference
+	extends Preference
 	implements
 		Preference.OnPreferenceClickListener,
 		ColorPickerDialog.OnColorChangedListener {
@@ -85,9 +85,9 @@ public class ColorPickerPreference
 	}
 
 	@Override
-	protected void onBindView(View view) {
-		super.onBindView(view);
-		mView = view;
+	public void onBindViewHolder(PreferenceViewHolder holder) {
+		super.onBindViewHolder(holder);
+		mView = holder.itemView;
 		setPreviewColor();
 	}
 
@@ -96,6 +96,7 @@ public class ColorPickerPreference
 		ImageView iView = new ImageView(getContext());
 		LinearLayout widgetFrameView = ((LinearLayout)mView.findViewById(android.R.id.widget_frame));
 		if (widgetFrameView == null) return;
+		widgetFrameView.setVisibility(View.VISIBLE);
 		widgetFrameView.setPadding(
 			widgetFrameView.getPaddingLeft(),
 			widgetFrameView.getPaddingTop(),

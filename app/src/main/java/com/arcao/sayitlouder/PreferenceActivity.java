@@ -1,15 +1,21 @@
 package com.arcao.sayitlouder;
 
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.text.method.DigitsKeyListener;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
-public class PreferenceActivity extends android.preference.PreferenceActivity {
+public class PreferenceActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.preference);
-		
-		((EditTextPreference) findPreference("shakeThresholdForce")).getEditText().setKeyListener(DigitsKeyListener.getInstance(false,false));
+
+		getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new PreferencesFragment()).commit();
+	}
+
+	public static class PreferencesFragment extends PreferenceFragmentCompat {
+		@Override
+		public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+			addPreferencesFromResource(R.xml.preference);
+		}
 	}
 }
