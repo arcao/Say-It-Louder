@@ -37,4 +37,6 @@
         <item>portrait</item>
         <item>landscape</item>
     </string-array>
+    <string name="pref_display_mirrored">Mirrored</string>
+    <string name="pref_display_mirrored_summary">Display text mirrored</string>
 </resources>

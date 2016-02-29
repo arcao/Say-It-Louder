@@ -33,5 +33,8 @@
 			android:defaultValue="-1" android:summary="@string/pref_display_orientation_summary"
 			android:title="@string/pref_display_orientation" android:entryValues="@array/pref_display_orientation_values"
 			android:entries="@array/pref_display_orientation_names" />
+        <CheckBoxPreference android:key="mirroredY"
+            android:defaultValue="false" android:summary="@string/pref_display_mirrored_summary"
+            android:title="@string/pref_display_mirrored" />
 	</PreferenceCategory>
 </PreferenceScreen>

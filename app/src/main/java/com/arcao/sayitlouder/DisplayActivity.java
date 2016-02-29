@@ -35,6 +35,7 @@ public class DisplayActivity extends Activity {
 		configuration.setShakeHighlightAllowed(prefs.getBoolean("highlightShake", configuration.isShakeHighlightAllowed()));
 		configuration.setShakeThresholdForce(getPrefsInt(prefs, "shakeThresholdForce", configuration.getShakeThresholdForce()));
 		configuration.setHighlightMode(getPrefsInt(prefs, "highlightMode", configuration.getHighlightMode()));
+		configuration.setMirroredY(prefs.getBoolean("mirroredY", configuration.isMirroredY()));
 
 		view = new MessageView(this, configuration, getIntent().getStringExtra(INTENT_EXTRA_MESSAGE));
 
