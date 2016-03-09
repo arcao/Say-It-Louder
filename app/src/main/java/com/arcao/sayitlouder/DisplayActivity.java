@@ -2,6 +2,7 @@ package com.arcao.sayitlouder;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,8 @@ public class DisplayActivity extends AppCompatActivity {
 		configuration.setShakeThresholdForce(getPrefsInt(prefs, "shakeThresholdForce", configuration.getShakeThresholdForce()));
 		configuration.setHighlightMode(getPrefsInt(prefs, "highlightMode", configuration.getHighlightMode()));
 		configuration.setMirroredY(prefs.getBoolean("mirroredY", configuration.isMirroredY()));
+
+		getWindow().setBackgroundDrawable(new ColorDrawable(configuration.getBackgroundColor()));
 
 		view = new MessageView(this, configuration, getIntent().getStringExtra(INTENT_EXTRA_MESSAGE));
 
